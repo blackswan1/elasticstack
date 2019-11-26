@@ -1,0 +1,21 @@
+input {
+    pipeline { address => "filebeat-001" }
+}
+
+filter {
+ 
+}
+
+output {
+    if ("filebeat-001" in [fields][pipeline]) {
+        elasticsearch {
+            hosts =>[ "http://xxx:9200", "http://yyy:9200" ]
+            user => "logstash_internal"
+            password => "password"
+            ilm_rollover_alias => "filebeat-001"
+            ilm_pattern => "{now/d}-000001"
+            ilm_policy => "filebeat-policy"
+            #index => "filebeat-001-%{+YYYY.MM.dd}"
+        }
+    }
+}

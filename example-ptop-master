@@ -1,0 +1,21 @@
+input {
+    beats {
+        port => 5044
+    }
+}
+
+output {
+    if "filebeat-001" in [fields][pipeline] {
+        pipeline { send_to => "filebeat-001}
+    }
+    else if "filebeat-002" in [fields][pipeline] {
+        pipeline { send_to => "filebeat-002}
+    }
+    else if "filebeat-003" in [fields][pipeline] {
+        pipeline { send_to => "filebeat-003" }
+    }
+    else {
+        pipeline { send_to => fallback }
+    }
+}
+
